@@ -12,5 +12,6 @@ data class TodoModel(
     var id: Int? = null,
     var title: String? = null,
     var date: String? = null,
-    var description: String? = null
+    var description: String? = null,
+    var priority: String? = null
 ) : Parcelable

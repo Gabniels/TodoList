@@ -1,20 +1,17 @@
 package com.example.todolist.screens.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.example.todolist.model.TodoModel
 import com.example.todolist.repository.TodoRepository
-import com.example.todolist.room.TodoDB
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: TodoRepository
-    val allTodo: LiveData<List<TodoModel>>
+@HiltViewModel
+class MainViewModel @Inject constructor(private val repository: TodoRepository) :
+    ViewModel() {
 
-    init {
-        val todoDao = TodoDB.getInstance(application).todoDao()
-        repository = TodoRepository(todoDao)
-        allTodo = repository.allTodo
-    }
+    val getAllTodo: LiveData<List<TodoModel>> get() = repository.getAllTodo()
+
 
 }

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
     id("kotlin-parcelize")
 }
 
@@ -51,6 +52,16 @@ dependencies {
     implementation "androidx.room:room-runtime:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
+
+    //    Dependency Injection
+    implementation 'com.google.dagger:hilt-android:2.40.5'
+    kapt 'com.google.dagger:hilt-android-compiler:2.40.5'
+
+
+    implementation("io.coil-kt:coil:1.3.2")
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.github.MicroProgramer:CircularImageView:1.0.3'
 
     //Live data and life cycles
 //    implementation "androidx.lifecycle:lifecycle-extensions:2.5.1"

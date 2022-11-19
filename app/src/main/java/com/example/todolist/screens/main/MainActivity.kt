@@ -5,16 +5,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.databinding.ActivityMainBinding
 import com.example.todolist.model.TodoModel
 import com.example.todolist.screens.add.AddActivity
 import com.example.todolist.screens.detail.DetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
+
+        private val viewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
 
 
@@ -34,9 +38,17 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
     }
 
     private fun getData() {
-        viewModel.allTodo.observe(this) {
-            Log.e("ALLDATA", "getData: $it", )
-            mainAdapter.setData(it)
+        viewModel.getAllTodo.observe(this) {
+            Log.e("ALLDATA", "getData: $it")
+            if (!it.isNullOrEmpty()) {
+                binding.rvListTodo.isVisible = true
+                binding.layoutEmpty.isVisible = false
+                mainAdapter.setData(it)
+            } else {
+                binding.rvListTodo.isVisible = false
+                binding.layoutEmpty.isVisible = true
+            }
+
 
         }
     }
@@ -50,8 +62,10 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
     }
 
     override fun onItemClick(todoModel: TodoModel) {
-        startActivity(Intent(this, DetailActivity::class.java)
-            .putExtra("TODOMODEL", todoModel))
+        startActivity(
+            Intent(this, DetailActivity::class.java)
+                .putExtra("TODOMODEL", todoModel)
+        )
     }
 
 }

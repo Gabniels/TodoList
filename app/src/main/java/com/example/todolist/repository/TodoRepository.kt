@@ -1,17 +1,26 @@
 package com.example.todolist.repository
 
 import androidx.lifecycle.LiveData
+import com.example.todolist.database.dao.TodoDao
 import com.example.todolist.model.TodoModel
-import com.example.todolist.room.TodoDao
+import javax.inject.Inject
 
-class TodoRepository(private val todoDao: TodoDao) {
-    val allTodo: LiveData<List<TodoModel>> = todoDao.getTodoList()
+class TodoRepository @Inject constructor(private val todoDao: TodoDao) {
 
-    suspend fun addTodo(todoModel: TodoModel) {
-        todoDao.addTodo(todoModel)
+    fun getAllTodo(): LiveData<List<TodoModel>> {
+        return todoDao.getTodoList()
     }
 
-    suspend fun deleteTodo(todoModel: TodoModel) {
-        todoDao.deleteTodo(todoModel)
+    suspend fun addTodo(todo: TodoModel) {
+        todoDao.addTodo(todo)
     }
+
+    suspend fun updateTodo(todo: TodoModel) {
+        todoDao.updateTodo(todo)
+    }
+
+    suspend fun deleteTodo(todo: TodoModel) {
+        todoDao.deleteTodo(todo)
+    }
+
 }

@@ -1,20 +1,15 @@
 package com.example.todolist.screens.detail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todolist.model.TodoModel
 import com.example.todolist.repository.TodoRepository
-import com.example.todolist.room.TodoDB
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: TodoRepository
-
-    init {
-        val todoDao = TodoDB.getInstance(application).todoDao()
-        repository = TodoRepository(todoDao)
-    }
+@HiltViewModel
+class DetailViewModel @Inject constructor(private val repository: TodoRepository) : ViewModel() {
 
     fun deleteTodo(
         id: Int,

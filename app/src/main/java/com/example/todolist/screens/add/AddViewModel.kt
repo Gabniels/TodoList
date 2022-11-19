@@ -1,31 +1,37 @@
 package com.example.todolist.screens.add
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todolist.model.TodoModel
 import com.example.todolist.repository.TodoRepository
-import com.example.todolist.room.TodoDB
-import com.example.todolist.room.TodoDao
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: TodoRepository
-
-    init {
-        val todoDao = TodoDB.getInstance(application).todoDao()
-        repository = TodoRepository(todoDao)
-    }
+@HiltViewModel
+class AddViewModel @Inject constructor(private val repository: TodoRepository) : ViewModel() {
 
     fun addTodo(
         title: String,
         date: String,
-        description: String
-    ) = viewModelScope.launch {
-        repository.addTodo(TodoModel(null, title, date, description))
+        description: String,
+        priority: String
+    ) {
+        viewModelScope.launch {
+            repository.addTodo(TodoModel(null, title, date, description, priority))
+        }
+    }
+
+    fun updateTodo(
+        id: Int,
+        title: String,
+        date: String,
+        description: String,
+        priority: String
+    ) {
+        viewModelScope.launch {
+            repository.updateTodo(TodoModel(id, title, date, description, priority))
+        }
     }
 
 }
