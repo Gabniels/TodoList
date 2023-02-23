@@ -23,19 +23,20 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getdata()
+        getData()
         setupView()
+        onClickListener()
     }
 
-    private fun getdata() {
+    private fun getData() {
         todoData = intent.getParcelableExtra("TODOMODEL")
     }
-
 
     private fun setupView() {
         binding.apply {
             txtTitle.text = todoData?.title
             txtDate.text = todoData?.date
+            txtDescription.text = todoData?.description
             val type = todoData?.priority
             if (type.equals("Low")) {
                 binding.imgPriortty.setCardBackgroundColor(Color.GREEN)
@@ -44,34 +45,25 @@ class DetailActivity : AppCompatActivity() {
             } else {
                 binding.imgPriortty.setCardBackgroundColor(Color.RED)
             }
-            txtDescription.text = todoData?.description
-            btnDelete.setOnClickListener {
-                viewModel.deleteTodo(
-                    todoData?.id!!,
-                    todoData?.title!!,
-                    todoData?.date!!,
-                    todoData?.description!!
-                )
-                Toast.makeText(
-                    applicationContext,
-                    "Data Berhasil Dihapus",
-                    Toast.LENGTH_SHORT
-                ).show()
-                finish()
-            }
+        }
+    }
 
-            binding.btnUpdate.setOnClickListener {
+    private fun onClickListener() {
+        binding.btnUpdate.setOnClickListener {
+            startActivity(
+                Intent(applicationContext, AddActivity::class.java)
+                    .putExtra("id", todoData?.id)
+                    .putExtra("title", todoData?.title)
+                    .putExtra("date", todoData?.date)
+                    .putExtra("type", todoData?.priority)
+                    .putExtra("desc", todoData?.description)
+            )
+        }
 
-                startActivity(
-                    Intent(applicationContext, AddActivity::class.java)
-                        .putExtra("id", todoData?.id!!)
-                        .putExtra("title", todoData?.title!!)
-                        .putExtra("date", todoData?.date!!)
-                        .putExtra("type", todoData?.priority)
-                        .putExtra("desc", todoData?.description)
-                )
-            }
-
+        binding.btnDelete.setOnClickListener {
+            viewModel.deleteTodo(todoData?.id)
+            Toast.makeText(applicationContext, "Data Berhasil Dihapus", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 

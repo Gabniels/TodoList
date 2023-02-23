@@ -12,12 +12,9 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(private val repository: TodoRepository) : ViewModel() {
 
     fun deleteTodo(
-        id: Int,
-        title: String,
-        date: String,
-        description: String
+        id: Int?,
     ) = viewModelScope.launch {
-        repository.deleteTodo(TodoModel(id, title, date, description))
+        repository.deleteTodo(TodoModel(id))
     }
 
 }

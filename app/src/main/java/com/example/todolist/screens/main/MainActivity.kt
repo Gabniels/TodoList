@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
     private lateinit var binding: ActivityMainBinding
 
-        private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var mainAdapter: MainAdapter
 
 
@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
 
     private fun getData() {
         viewModel.getAllTodo.observe(this) {
-            Log.e("ALLDATA", "getData: $it")
             if (!it.isNullOrEmpty()) {
                 binding.rvListTodo.isVisible = true
                 binding.layoutEmpty.isVisible = false
@@ -48,8 +47,6 @@ class MainActivity : AppCompatActivity(), MainAdapter.OnItemClickCallback {
                 binding.rvListTodo.isVisible = false
                 binding.layoutEmpty.isVisible = true
             }
-
-
         }
     }
 

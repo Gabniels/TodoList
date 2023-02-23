@@ -56,33 +56,10 @@ class AddActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         type = intent.getStringExtra("type")
         desc = intent.getStringExtra("desc")
 
-        Log.d("TAGDATE", "setupView: $date")
-
         if (noteId != 0) {
             binding.layoutAdd.txtTitle.text = "Edit Task"
             binding.layoutAdd.btnEdit.visibility = VISIBLE
             binding.layoutAdd.btnAdd.visibility = GONE
-
-
-            val cal = Calendar.getInstance()
-            val date = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-
-                Log.d("TAGDATEAWAL", "setupView: $date")
-                val convertOld = SimpleDateFormat("yyyy-MM-dd")
-                val test = convertOld.format(date.toString())
-                Log.d("TAGDATETEST", "setupView: $test")
-            }
-
-            binding.layoutAdd.btnDate.setOnClickListener {
-                DatePickerDialog(
-                    this@AddActivity, date,
-                    cal.get(Calendar.YEAR),
-                    cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)
-                ).apply {
-                    show()
-                }
-            }
 
             var positionSpinner = 0
 
